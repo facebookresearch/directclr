@@ -2,9 +2,9 @@
 
 This repo contains the code used in paper [Understanding Dimensional Collapse in Contrastive Self-supervised Learning](https://arxiv.org/abs/2110.09348).
 <p align="center">
-  <img width="300" alt="complete-collapse" src="figures/complete-collapse.png">
-  <img width="300" alt="idea" src="figures/idea.png">
-  <img width="300" alt="dim-collapse" src="figures/dimensional-collapse.png">
+  <img width="200" alt="complete-collapse" src="figures/complete-collapse.png">
+  <img width="200" alt="idea" src="figures/idea.png">
+  <img width="200" alt="dim-collapse" src="figures/dimensional-collapse.png">
 </p>
 
 ```
