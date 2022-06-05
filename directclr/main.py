@@ -20,7 +20,7 @@ from torch import nn
 from utils import *
 
 parser = argparse.ArgumentParser(description='DirectCLR Training')
-parser.add_argument('--data', type=Path, metavar='DIR',
+parser.add_argument('--data', type=Path, metavar='DIR', default="/datasets01/imagenet_full_size/061417",
                     help='path to dataset')
 parser.add_argument('--workers', default=8, type=int, metavar='N',
                     help='number of data loader workers')
@@ -34,12 +34,12 @@ parser.add_argument('--weight-decay', default=1e-6, type=float, metavar='W',
                     help='weight decay')
 parser.add_argument('--print-freq', default=10, type=int, metavar='N',
                     help='print frequency')
-parser.add_argument('--checkpoint-dir', type=Path,
+parser.add_argument('--checkpoint-dir', default='./', type=Path,
                     metavar='DIR', help='path to checkpoint directory')
 parser.add_argument('--dim', default=360, type=int,
                     help="dimension of subvector sent to infoNCE")
 parser.add_argument('--mode', type=str, default="baseline", 
-                    choices=["baseline", "simclr", "directclr", "single"],
+                    choices=["baseline", "simclr", "directclr", "single", "group"],
                     help="project type")
 parser.add_argument('--name', type=str, default='test')
 
@@ -140,7 +140,7 @@ def main_worker(gpu, args):
         # save final model
         torch.save(dict(backbone=model.module.backbone.state_dict(),
                         head=model.module.online_head.state_dict()),
-                '/checkpoint/ljng/latent-noise/pretrained/' + args.name + '-resnet50.pth')
+                args.checkpoint_dir + args.name + '-resnet50.pth')
 
 
 class directCLR(nn.Module):
@@ -174,15 +174,26 @@ class directCLR(nn.Module):
         if self.args.mode == "baseline":
             z1 = r1
             z2 = r2
+            loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
         elif self.args.mode == "directclr":
             z1 = r1[:, :self.args.dim]
             z2 = r2[:, :self.args.dim]
+            loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
+        elif self.args.mode == "group":
+            idx = np.arange(2048)
+            np.random.shuffle(idx)
+            loss = 0
+            for i in range(8):
+                start = i * 256
+                end = start + 256
+                z1 = r1[:, idx[start:end]]
+                z2 = r2[:, idx[start:end]]
+                loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
+            
         elif self.args.mode == "simclr" or self.args.mode == "single":
             z1 = self.projector(r1)
             z2 = self.projector(r2)
-
-
-        loss = infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
+            loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
 
         logits = self.online_head(r1.detach())
         cls_loss = torch.nn.functional.cross_entropy(logits, labels)
@@ -191,7 +202,6 @@ class directCLR(nn.Module):
         loss = loss + cls_loss
 
         return loss, acc
-
 
 def infoNCE(nn, p, temperature=0.1):
     nn = torch.nn.functional.normalize(nn, dim=1)
