@@ -1,7 +1,9 @@
 # Understanding Dimensional Collapse in Contrastive Self-supervised Learning
 
 This repo contains the code used in paper [Understanding Dimensional Collapse in Contrastive Self-supervised Learning](https://arxiv.org/abs/2110.09348).
-
+<p align="center">
+  <img width="300" alt="dim-collapse" src="figures/dimensional-collapse.png">
+</p>
 
 ```
 @article{Jing2021UnderstandingDC,
@@ -15,12 +17,14 @@ This repo contains the code used in paper [Understanding Dimensional Collapse in
 ## Part 1: Visualize SimCLR's embedding Spectrum
 
 We viaulize the embedding space spectrum of a pretrained SimCLR model. The code is in [spectrum.py](spectrum.py)
-
+<p align="center">
+  <img width="400" alt="spectrum" src="figures/simclr-spectrum.png">
+</p>
 
 ## Part 2: Toy Tasks
 
 We show that 2 reasons (strong augmentaiton and implicit regularization) cause dimensional collapse in contrastive learning via toy tasks. 
-Please see [toy_tasks](toy_tasks/)
+Please see [toy_tasks](toy_tasks/).
 
 ## Part 3: DirectCLR
 
@@ -30,7 +34,7 @@ DirectCLR is a simple contrastive learning model for visual representation learn
   <img width="300" alt="DirectCLR" src="figures/directCLR.png">
 </p>
 
-For training / evaluation detail, please see [directclr](diretclr/)
+For training / evaluation detail, please see [directclr](diretclr/).
 
 
 ### License
