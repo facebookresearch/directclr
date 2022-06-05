@@ -24,7 +24,7 @@ We viaulize the embedding space spectrum of a pretrained SimCLR model. The code 
 ## Part 2: Toy Tasks
 
 We show that 2 reasons (strong augmentaiton and implicit regularization) cause dimensional collapse in contrastive learning via toy tasks. 
-Please see [toy_tasks](toy_tasks/).
+Please see [toy_tasks](https://github.com/facebookresearch/directclr/tree/main/toy_task).
 
 ## Part 3: DirectCLR
 
@@ -34,7 +34,7 @@ DirectCLR is a simple contrastive learning model for visual representation learn
   <img width="300" alt="DirectCLR" src="figures/directCLR.png">
 </p>
 
-For training / evaluation detail, please see [directclr](diretclr/).
+For training / evaluation detail, please see [diretclr](https://github.com/facebookresearch/directclr/tree/main/directclr).
 
 
 ### License
