@@ -3,19 +3,11 @@
 DirectCLR is a simple contrastive learning model for visual representation learning. It does not require a trainable projector as SimCLR. It is able to prevent dimensional collapse and outperform SimCLR with a linear projector.
 
 <p align="center">
-  <img width="300" alt="DirectCLR" src="figures/directCLR.png">
+  <img width="300" alt="DirectCLR" src="../figures/directCLR.png">
 </p>
 
 PyTorch implementation of DirectCLR from paper [Understanding Dimensional Collapse in Contrastive Self-supervised Learning](https://arxiv.org/abs/2110.09348).
 
-```
-@article{Jing2021UnderstandingDC,
-  title={Understanding Dimensional Collapse in Contrastive Self-supervised Learning},
-  author={Li Jing and Pascal Vincent and Yann LeCun and Yuandong Tian},
-  journal={arXiv preprint arXiv:2110.09348},
-  year={2021}
-}
-```
 
 ### DirectCLR Training
 
