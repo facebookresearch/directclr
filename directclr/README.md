@@ -48,7 +48,3 @@ python linear_probe.py /path/to/imagenet/ /path/to/checkpoint/resnet50.pth
 ```
 
 Linear probe time is approximately 20 hours on 8 v100 GPUs.
-
-### License
-
-This project is under the CC-BY-NC 4.0 license. See [LICENSE](LICENSE) for details.
