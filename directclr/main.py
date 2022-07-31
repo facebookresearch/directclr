@@ -174,11 +174,11 @@ class directCLR(nn.Module):
         if self.args.mode == "baseline":
             z1 = r1
             z2 = r2
-            loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
+            loss = infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
         elif self.args.mode == "directclr":
             z1 = r1[:, :self.args.dim]
             z2 = r2[:, :self.args.dim]
-            loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
+            loss = infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
         elif self.args.mode == "group":
             idx = np.arange(2048)
             np.random.shuffle(idx)
@@ -188,12 +188,12 @@ class directCLR(nn.Module):
                 end = start + 256
                 z1 = r1[:, idx[start:end]]
                 z2 = r2[:, idx[start:end]]
-                loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
+                loss = loss + infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
             
         elif self.args.mode == "simclr" or self.args.mode == "single":
             z1 = self.projector(r1)
             z2 = self.projector(r2)
-            loss += infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
+            loss = infoNCE(z1, z2) / 2 + infoNCE(z2, z1) / 2
 
         logits = self.online_head(r1.detach())
         cls_loss = torch.nn.functional.cross_entropy(logits, labels)
