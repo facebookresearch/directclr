@@ -20,7 +20,7 @@ import torch
 import torchvision
 
 parser = argparse.ArgumentParser(description='Evaluate resnet50 features on ImageNet')
-parser.add_argument('--data', type=Path, metavar='DIR',
+parser.add_argument('--data', type=Path, metavar='DIR', default="/datasets01/imagenet_full_size/061417",
                     help='path to dataset')
 parser.add_argument('--pretrained', type=Path, metavar='FILE',
                     help='path to pretrained model')
@@ -71,7 +71,9 @@ def main_worker(gpu, args):
     model = models.resnet50().cuda(gpu)
 
     state_dict = torch.load(args.pretrained, map_location='cpu')
-    missing_keys, unexpected_keys = model.load_state_dict(state_dict["backbone"], strict=False)
+    prefix = "module.backbone."
+    state_dict = { k[len(prefix):] : v for k, v in state_dict["model"].items() if k.startswith(prefix) }
+    missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
     assert missing_keys == ['fc.weight', 'fc.bias'] and unexpected_keys == []
     model.fc.weight.data.normal_(mean=0.0, std=0.01)
     model.fc.bias.data.zero_()
