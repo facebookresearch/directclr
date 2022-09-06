@@ -31,6 +31,13 @@ python main.py --data /path/to/imagenet/ --mode directclr --dim 360
 
 Training time is approximately 7 hours on 32 v100 GPUs.
 
+### Checkpoint
+
+A pretrained DirectCLR checkpoint can be found here [checkpoint](https://drive.google.com/file/d/1m5z85gKPZqn9yk0h-qT3zo6XszxdvI3d/view?usp=sharing).
+
+This model can achieve about 62.7% Linear probe accuracy.
+
+
 ### Evaluation: Linear Classification
 
 Train a linear probe on the representations. Freeze the weights of the resnet and use the entire ImageNet training set.
